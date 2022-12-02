@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <Spinner
+        android:id="@+id/typeSpinner"
+        android:scrollbarSize="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:spinnerMode="dropdown"
+        />
+
+    <Spinner
+        android:id="@+id/colorSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbarSize="5dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="-45dp"
+        android:spinnerMode="dropdown"
+        />
+
+    <Spinner
+        android:id="@+id/seasonSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbarSize="5dp"
+        android:layout_marginLeft="190dp"
+        android:layout_marginTop="-47dp"
+        android:spinnerMode="dropdown"
+        />
+
+    <Button
+        android:id="@+id/inquiryBtn"
+        android:text="조회"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="-40dp"
+        android:onClick="btnClicked"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        />
+
+
+
+
+
+
+</LinearLayout>
