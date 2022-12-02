@@ -33,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
+    String type;
+    String color;
+    String season;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList arrayListCtype = new ArrayList<>(); // 스피너 카테고리 목록
         arrayListCtype.add("상의");
         arrayListCtype.add("하의");
+        arrayListCtype.add("긴바지");
         arrayListCtype.add("원피스");
         arrayListCtype.add("신발");
         arrayListCtype.add("모자");
@@ -64,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         arrayListCcolor.add("파랑색");
         arrayListCcolor.add("남색");
         arrayListCcolor.add("보라색");
+        arrayListCcolor.add("흰색");
 
         ArrayList arrayListCSeason = new ArrayList<>(); // 스피너 Cseason 목록
         arrayListCSeason.add("하절기");
@@ -90,8 +97,34 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 //String type = arrayListCtype.get(position).toString();
-                //Toast.makeText(MainActivity.this,"선택된 아이템: "+typeSpinner.getItemAtPosition(position),Toast.LENGTH_SHORT).show();
-                String type = typeSpinner.getItemAtPosition(position).toString();
+                Toast.makeText(MainActivity.this,"선택: "+typeSpinner.getItemAtPosition(position),Toast.LENGTH_SHORT).show();
+                String type = typeSpinner.getItemAtPosition(position).toString(); // 스피너에서 선택한 값 변수에 저장
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        colorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                Toast.makeText(MainActivity.this,"선택: "+colorSpinner.getItemAtPosition(position),Toast.LENGTH_SHORT).show();
+                String color = typeSpinner.getItemAtPosition(position).toString(); // 스피너에서 선택한 값 변수에 저장
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        seasonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                Toast.makeText(MainActivity.this,"선택: "+seasonSpinner.getItemAtPosition(position),Toast.LENGTH_SHORT).show();
+                String season = typeSpinner.getItemAtPosition(position).toString(); // 스피너에서 선택한 값 변수에 저장
             }
 
             @Override
@@ -102,8 +135,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void btnClicked(View v){ // 버튼 클릭시 실행 이벤트
-        databaseReference = database.getReference("itemlist"); //DB테이블 연결
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference = database.getReference("itemlist");// DB 테이블 연결
+        Query myTopPost = databaseReference.orderByChild("cType").equalTo(type);
+        Query myTopPost2 = myTopPost.orderByChild("cColor").equalTo(color);
+        Query myTopPost3 = myTopPost2.orderByChild("cSeason").equalTo(season);
+
+        myTopPost3.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                 // 파이어베이스 데이터베이스의 데이터를 받아오는 곳
@@ -111,11 +148,6 @@ public class MainActivity extends AppCompatActivity {
 
                 for (DataSnapshot snapshot : datasnapshot.getChildren()) { // 반복문으로 데이터 추출
                     Category category = snapshot.getValue(Category.class); // 만들어뒀던 Category 객체에 데이터를 담음
-
-                    //Query에 해당하는 값 가져오기
-
-
-
 
 
                     //Query newPlaceDatabaseQuery = FirebaseDatabase.getInstance().getReference("itemlist").child("cType").limitToLast(5);
